@@ -18,6 +18,7 @@ import { CadastroComponent } from './core/components/cadastro/cadastro.component
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { ConsultaComponent } from './core/components/consulta/consulta.component';
 import { ModalComponent } from './core/components/modal/modal.component';
+import { ErrorAuthComponent } from './core/components/error-auth/error-auth.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ModalComponent } from './core/components/modal/modal.component';
     CadastroComponent,
     NavbarComponent,
     ConsultaComponent,
-    ModalComponent
+    ModalComponent,
+    ErrorAuthComponent
   ],
   imports: [
     BrowserModule,

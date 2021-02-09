@@ -28,7 +28,7 @@
                     <td>{{produto.idProd}}</td>
                     <td>{{produto.dtInclusao | date: 'dd/MM/yyyy':'GMT'}}</td>
                     <td>{{produto.nomProd}}</td>
-                    <td>{{produto.vlVend}}</td>
+                    <td>{{produto.vlVend | currency: 'R$ '}}</td>
                    
                     <a cdkFocusInitial class = "edit pr-3" (click) = "openModal('atualização', produto)"><mat-icon>edit</mat-icon></a>
                     <a cdkFocusInitial class = "delete pr-2" (click) = "openModal('exclusão', produto)"><mat-icon>delete_forever</mat-icon></a>

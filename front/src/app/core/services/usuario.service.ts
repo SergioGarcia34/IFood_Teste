@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { UtilsService } from './utils.service'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UsuarioService {
   private httpOptions;
  
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private utils : UtilsService) { 
 
   }
 
@@ -35,11 +36,11 @@ export class UsuarioService {
   }
 
 
-  validarToken(token){ //colocar nos guards!!!!!!
+  validarToken(token){ 
     
     this.httpOptions = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + token });
     
-    return this.http.get(`${this.url}/api/token`, { headers: this.httpOptions, 'observe': 'response' })
+    return this.http.get(`${this.url}/api/login/token`, { headers: this.httpOptions, 'observe': 'response' })
       .pipe(
         map((data : any) => {
           return data;
@@ -48,5 +49,26 @@ export class UsuarioService {
           return throwError(error)
         })
       )
+  }
+
+
+  auth(){
+    
+      let token = this.utils.getLocalStorage("Token");
+
+      if (token){
+
+          return this.validarToken(token).toPromise<boolean>(
+              
+          ).then(
+            (res: any)=> {
+                return true;          
+          })
+          .catch((err: any)=>{
+                return false;
+          })
+      } else {
+        return false;
+      }
   }
 }
