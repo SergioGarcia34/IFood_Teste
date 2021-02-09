@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace IfoodAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -33,6 +34,13 @@ namespace IfoodAPI.Controllers
             return Ok();
             
 
+        }
+
+
+        [HttpGet("token")]
+        public ActionResult ValidaToken()
+        {
+            return Ok();
         }
     }
 }

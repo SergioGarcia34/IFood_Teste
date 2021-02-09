@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace IfoodAPI.Repository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository
     {
-        Task<List<T>> GetAll();
-        Task<T> Get(int id);
-        Task<T> Add(T entity);
-        Task<T> Update(T entity);
-        Task<T> Delete(int id);
+        Task<List<T>> SelectAll<T>() where T : class;
+        Task<T> SelectById<T>(int id) where T : class;
+        Task CreateAsync<T>(T entity) where T : class;
+        Task UpdateAsync<T>(T entity) where T : class;
+        Task DeleteAsync<T>(T entity) where T : class;
     }
 }

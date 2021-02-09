@@ -18,19 +18,22 @@ namespace IfoodAPI.Controllers
     [Route("api/[controller]")]
     public class ProdutosController : ControllerBase
     {
-        private readonly iFoodDBContext _context;
+        private readonly IRepository _repository;
 
-        public ProdutosController(iFoodDBContext context)
+        public ProdutosController(AppDBContext context, IRepository repository)   
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/Produtos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProduto()
         {
-            try { 
-                return await _context.Produto.ToListAsync();
+            try {
+
+                var model = await _repository.SelectAll<Produto>();
+                return model;
+
             }
             catch (SqlException)
             {
@@ -48,9 +51,9 @@ namespace IfoodAPI.Controllers
         {
             try
             {
-            var produto = await _context.Produto.FindAsync(id);
+                var produto = await  _repository.SelectById<Produto>(id);
 
-            if (produto == null)
+                if (produto == null)
             {
                 return NotFound();
             }
@@ -78,24 +81,7 @@ namespace IfoodAPI.Controllers
                 {
                     return BadRequest();
                 }
-
-                _context.Entry(produto).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProdutoExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                    await _repository.UpdateAsync<Produto>(produto);              
             }
             catch (SqlException)
             {
@@ -114,8 +100,8 @@ namespace IfoodAPI.Controllers
         public async Task<ActionResult<Produto>> PostProduto(Produto produto)
         {
             try {
-                _context.Produto.Add(produto);
-                await _context.SaveChangesAsync();
+
+                await _repository.CreateAsync<Produto>(produto);
 
                 return CreatedAtAction("GetProduto", new { id = produto.IdProd }, produto);
             }
@@ -135,14 +121,14 @@ namespace IfoodAPI.Controllers
         {
             try
             {
-                var produto = await _context.Produto.FindAsync(id);
+                var produto = await _repository.SelectById<Produto>(id);
+
                 if (produto == null)
                 {
                     return NotFound();
                 }
 
-                _context.Produto.Remove(produto);
-                await _context.SaveChangesAsync();
+                await _repository.DeleteAsync<Produto>(produto);
 
                 return produto;
             }
@@ -157,9 +143,5 @@ namespace IfoodAPI.Controllers
 
         }
 
-        private bool ProdutoExists(int id)
-        {   
-            return _context.Produto.Any(e => e.IdProd == id);
-        }
     }
 }

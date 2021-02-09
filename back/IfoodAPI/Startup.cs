@@ -25,13 +25,15 @@ namespace IfoodAPI
         {
             var Connection = Configuration.GetConnectionString("IfoodDB");
             
-            services.AddDbContextPool<iFoodDBContext>(options => options.UseLazyLoadingProxies().UseSqlServer(Connection));
+            services.AddDbContext<AppDBContext>(c => c.UseLazyLoadingProxies().UseSqlServer(Connection));
+
+
             services.AddControllers();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddTokenAuthentication(Configuration);
             services.AddSingleton<ValidacaoServices>();
+            services.AddScoped<IRepository, Repository<AppDBContext>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +44,7 @@ namespace IfoodAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            //Apenas para fins de demonstração, deixei todas as origens e cabeçalhos permitidos. 
             app.UseCors(options =>
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("Authorization"));
 
