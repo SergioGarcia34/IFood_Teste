@@ -1,0 +1,45 @@
+//colors
+$outline-input: rgba(128, 128, 128, 0.212);
+$background-light: rgba(255, 255, 255, 0.822);
+$main-gray: rgba(59, 59, 59, 0.918);
+$main-red: #dc3545;
+
+html, body {
+    height: 100%;
+    background-color: $background-light;
+}
+
+h1,h2,h3,h4,h5,h6,img,p,a,span, input, mat-icon, label, textarea {
+    &::selection{
+        background-color: $outline-input;
+    }
+}
+    
+form{
+
+    .invalid-feedback, .is-invalid{
+        &::placeholder, &{
+            color: $main-red;
+        }
+    }
+   
+    .is-invalid {
+        border: 1px solid $main-red;
+
+        & + p{            
+            font-size: 15px;        
+            color: $main-red;
+        }
+    }
+
+
+
+    input, select, textarea {
+        &:focus{
+            box-shadow: 0 0 0 0.1rem $outline-input;
+            border-color: $outline-input !important;
+        }
+    }
+}
+
+

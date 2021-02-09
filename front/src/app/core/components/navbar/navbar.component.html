@@ -1,0 +1,24 @@
+<nav class="container-fluid navbar navbar-expand-lg navbar-dark pt-0 pb-0 pl-0 ">
+
+    <img class = "navbar-brand mr-0 ml-2 pt-1 pb-1" src = "../../../../assets/images/ifoodLogo.png">
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse " id="navbarText">
+
+      <ul class="navbar-nav mr-auto ">
+        <a [routerLink]="['/cadastro']" routerLinkActive="disabled" class="nav-link text-left pl-4" href="#">cadastro</a>
+        <a [routerLink]="['/produtos']" routerLinkActive="disabled" class="nav-link text-left pl-4" href="#">produtos</a>
+      </ul>
+
+      <ul class="navbar-nav ml-auto ">
+        <a [routerLink]="['/login']" routerLinkActive="disabled" class="nav-link text-left pl-4" (click) = "this.utils.deletelocalStorage('token')" href="#">
+            <mat-icon>logout</mat-icon>
+        </a>
+      </ul>
+
+    </div>
+  </nav> 

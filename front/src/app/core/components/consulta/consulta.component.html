@@ -1,0 +1,46 @@
+       
+    <app-navbar></app-navbar>
+    <div class = "consulta ml-4 mr-4 mt-5">
+        <div class = "header text-left mt-4 mr-1 ml-1 pl-1">
+            
+            <span>
+                <mat-icon class = "mr-2">arrow_right</mat-icon>
+            </span>
+            <h1 class = "d-inline-block mt-1">
+                Consulta de produtos
+            </h1>
+
+        </div>
+
+        <div class = "text-center mt-5 mr-2 ml-2 mb-0 pt-2 pb-4 pl-2">
+
+            <table *ngIf = "this.produtos.length > 0" datatable class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>data</th>
+                    <th>nome</th>
+                    <th>valor de venda</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor = "let produto of produtos">
+                    <td>{{produto.idProd}}</td>
+                    <td>{{produto.dtInclusao | date: 'dd/MM/yyyy':'GMT'}}</td>
+                    <td>{{produto.nomProd}}</td>
+                    <td>{{produto.vlVend}}</td>
+                   
+                    <a cdkFocusInitial class = "edit pr-3" (click) = "openModal('atualização', produto)"><mat-icon>edit</mat-icon></a>
+                    <a cdkFocusInitial class = "delete pr-2" (click) = "openModal('exclusão', produto)"><mat-icon>delete_forever</mat-icon></a>
+                  </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf = "this.produtos.length == 0">Não há produtos cadastrados</p>
+
+            <div class = "col-md-12 form-group text-center mt-5 mb-5 pt-5 ">
+                <button class ="col-md-2 form-control btn btn-danger" (click) = "this.getAllProdutos()">Atualizar</button>     
+            </div> 
+
+        </div>
+    </div>

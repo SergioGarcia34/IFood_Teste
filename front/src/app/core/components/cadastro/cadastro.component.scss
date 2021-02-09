@@ -1,0 +1,49 @@
+@import '../../../../styles.scss';
+
+.header{
+    border-radius: 3px;
+    box-shadow: 1px gray;
+}
+
+mat-icon{
+    font-size: 40px;
+    color: $main-red;
+    vertical-align: top;
+}
+
+.camera{
+    font-size: 30px;
+}
+
+h1, h2{ 
+    letter-spacing: 0.5px;
+    color: $main-gray;
+}
+
+h1{
+    font-size: 28px;
+    font-weight: 300; 
+}
+
+h2{
+    font-size: 19px;
+    font-weight: 400; 
+}
+
+.img{
+    width: 250px !important;
+}
+
+form{
+
+    border-top: none;
+    
+    label{
+        letter-spacing: 0.4px;
+        font-size: 19px;
+        color: $main-gray;
+        font-weight: 300;
+    }   
+}
+
+

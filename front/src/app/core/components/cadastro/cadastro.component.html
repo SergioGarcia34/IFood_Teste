@@ -1,0 +1,83 @@
+       
+    <app-navbar></app-navbar>
+    <div>
+        <div class = "row header text-left mt-5 mr-4 ml-4 mb-5 pt-4 pb-0 pl-2">
+            
+            <span>
+                <mat-icon class = "mr-2">arrow_right</mat-icon>
+            </span>
+            <h1 class = "d-inline-block mt-1">
+                Cadastro de produtos
+            </h1>
+
+        </div>
+
+        <div class = "row">
+
+            <form [formGroup]="cadastroForm" class= "col-md-6 mr-4 ml-5 pt-0 pl-2" (ngSubmit)="onSubmit()" novalidate >
+
+                    <div class = "row col-md-12 mb-3">
+
+                        <div class = "col-md-8 form-group">
+                            <label class= "mb-2" for="nome">nome</label>
+                            <input [ngClass] = "{'is-invalid': isSubmitted && cadastroForm.get('NomProd').hasError('required')}"
+                              type="text" class="form-control mb-2 " formControlName="NomProd" maxlength="55" name="nome" id ="nome">
+                            <ng-container class = "invalid-feedback" *ngIf="cadastroForm.get('NomProd').hasError('required') && isSubmitted">
+                                <p class = "font-italic pt-0 mt-0 pb-2 pl-1">digite o nome do produto</p>
+                            </ng-container>    
+                        </div>
+
+                        
+                        <div class = "col-md-3 form-group mr-3">
+                            <label class= "mb-2" for="valor_venda">valor</label>
+                            <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" [ngClass] = "{'is-invalid': isSubmitted && cadastroForm.get('VlVend').hasError('required')}"
+                             type="text" class="form-control mb-2 " maxlength="10" formControlName="VlVend" name="valor_venda" id ="valor_venda">
+                            <ng-container class = "invalid-feedback" *ngIf="cadastroForm.get('VlVend').hasError('required') && isSubmitted">
+                                <p class = "font-italic pt-0 mt-0 pb-2 pl-1">digite o valor de venda</p>
+                            </ng-container>  
+                        </div>
+
+                    </div>
+
+                    <div class = "row col-md-12 mb-3">
+                        
+                        <div class="col-md-11 form-group">
+                                <label class="form-label" for="imagem">imagem</label>
+                                <input [ngClass] = "{'is-invalid': (isSubmitted && cadastroForm.get('StrImag').hasError('required')) || imgSize}" formControlName="File" type="file" class="form-control" id="imagem" (change)="preview($event)" accept=".jpg,.png,.jpeg" />   
+                                <ng-container class = "invalid-feedback" *ngIf="imgSize">
+                                    <p class = "font-italic pt-2 mt-0 pb-2 pl-1">tamanho da imagem não deve ultrapassar 5mb</p>
+                                </ng-container>  
+                                <input type="hidden" name = "fileHidden" formControlName = "StrImag">
+                           
+                        </div>
+                    </div>
+
+                    <div class = "row col-md-12">
+                        <div class = "col-md-11 form-group">
+                                <label for="descricao">descrição</label>
+                                <textarea class="form-control" maxlength="250" formControlName="DescProd" id="descricao" rows="6"></textarea>
+                        </div>
+                    </div>
+
+                    <div class = "row col-md-12">
+                        <div class = "col-md-12 form-group text-center mt-1 mb-5 pt-5 ">
+                            <button class ="col-md-3 form-control btn btn-danger mr-4" type ="submit">Cadastrar</button>     
+                            <button class ="col-md-3 form-control btn btn-secondary"  type = "reset" (click) = "createForm()">Limpar</button>             
+                        </div> 
+                    </div>
+
+            </form>
+
+            <div class = "col-md-4">
+                <div class="col-md-4" *ngIf="url">
+                    <div class = "row pt-4">
+                        <span>
+                            <mat-icon class = "camera ml-3 mr-3">photo_camera</mat-icon>
+                        </span>
+                        <h2 class = "d-inline-block mt-0 mb-5">preview</h2>
+                    </div>
+                    <img class = "img" [src]="url">
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,65 @@
+
+<h1 mat-dialog-tittle>Confirmar <strong>{{action}}</strong></h1>
+
+<form [formGroup]="updateForm" class = "form" novalidate>
+    <div *ngIf = "action == 'atualização'">
+        <div class = "col-md-12 form-group">
+            <label class= "mb-2" for="nome">nome</label>
+            <input [ngClass] = "{'is-invalid': isSubmitted && updateForm.get('NomProd').hasError('required')}" 
+             type="text" class="form-control mb-2 " maxlength="55" formControlName="NomProd" name="nome" id ="nome">
+            <ng-container class = "invalid-feedback" *ngIf="updateForm.get('NomProd').hasError('required') && isSubmitted">
+                <p class = "font-italic pt-0 mt-0 pb-2 pl-1">digite o nome do produto</p>
+            </ng-container>    
+        </div>
+
+        
+        <div class = "col-md-5 form-group mr-3">
+            <label class= "mb-2" for="valor_venda">valor</label>
+            <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" 
+            [ngClass] = "{'is-invalid': isSubmitted && updateForm.get('VlVend').hasError('required')}"
+             type="text" class="form-control mb-2 " maxlength="10" formControlName="VlVend" name="valor_venda" id ="valor_venda">
+            <ng-container class = "invalid-feedback" *ngIf="updateForm.get('VlVend').hasError('required') && isSubmitted">
+                <p class = "font-italic pt-0 mt-0 pb-2 pl-1">digite o valor de venda</p>
+            </ng-container>  
+        </div>
+
+        <div class="col-md-12 form-group">
+                <label class="form-label" for="imagem">imagem</label>
+                <input  [ngClass] = "{'is-invalid': (isSubmitted && updateForm.get('StrImag').hasError('required')) || imgSize}" formControlName="File" type="file" class="form-control" id="imagem" (change)="preview($event)" accept=".jpg,.png,.jpeg" />   
+                <ng-container class = "invalid-feedback" *ngIf="imgSize">
+                    <p class = "font-italic pt-2 mt-0 pb-2 pl-1">tamanho da imagem não deve ultrapassar 5mb</p>
+                </ng-container>  
+                <input type="hidden" name = "fileHidden" formControlName = "StrImag">
+        </div>
+
+        <div class = "col-md-4">
+            <div class="col-md-4" *ngIf="url">
+                <div class = "row ">
+                    <h2 class = "d-inline-block mt-0">preview</h2>
+                </div>
+                <img class = "rounded mb-3" [src]="url">
+            </div>
+        </div>
+
+        <div class = "col-md-12 form-group">
+                <label for="descricao">descrição</label>
+                <textarea class="form-control" maxlength="250" formControlName="DescProd" id="descricao" rows="6"></textarea>
+        </div>
+
+    </div>
+</form>
+
+<div *ngIf = "action == 'exclusão'"> 
+    <ul class = "pt-2 pb-2">
+        <li class = "pb-2"><span>Data: </span>{{local_data.DtInclusao | date: 'dd/MM/yyyy':'GMT'}}</li>
+        <li class = "pb-2"><span>Nome: </span>{{local_data.NomProd}}</li>
+        <li class = "pb-2"><span>Valor de venda: </span>{{local_data.VlVend}}</li>
+    </ul>
+</div>
+
+
+<div mat-dialog-actions class = "col-md-12">
+    <button *ngIf = "this.action == 'atualização'" class = "col btn btn-danger mr-2" (click) = "atualizar()">Atualizar</button>
+    <button *ngIf = "this.action == 'exclusão'" class = "col btn btn-danger mr-2" (click) = "excluir()">Excluir</button>
+    <button class = "col btn btn-secondary" (click) = "this.closeModal()">Cancelar</button>
+</div>
